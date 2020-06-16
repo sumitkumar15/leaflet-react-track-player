@@ -5,7 +5,7 @@ import L from "leaflet";
 
 export default class Dots extends React.PureComponent {
   procentDefault = index => {
-    return index / (this.props.track.length / 100)
+    return index / (this.props.track.length / 100);
   };
   procentTime = item => {
     const itemDuration =
@@ -22,7 +22,7 @@ export default class Dots extends React.PureComponent {
     }
   };
   render() {
-    var prevProcent = {val: 0};
+    var prevProcent = { val: 0 };
     return this.props.track.map((item, index) => {
       return (
         <div
@@ -33,10 +33,10 @@ export default class Dots extends React.PureComponent {
               this.props.type === "default"
                 ? this.procentDefault(index)
                 : this.props.type === "time"
-                  ? this.procentTime(item)
-                  : this.props.type === "distance"
-                    ? this.procentDistance(prevProcent, item, index)
-                    : 0
+                ? this.procentTime(item)
+                : this.props.type === "distance"
+                ? this.procentDistance(prevProcent, item, index)
+                : 0
             }%`
           }}
         />

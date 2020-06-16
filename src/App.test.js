@@ -3,7 +3,7 @@ import Adapter from "enzyme-adapter-react-16";
 import { configure, shallow } from "enzyme";
 import { Map, TileLayer } from "react-leaflet";
 import demo from "./demo";
-import LeafletReactTrackPlayer from "./laeflet-react-track-player";
+import LeafletReactTrackPlayer from "./leaflet-react-track-player";
 
 configure({ adapter: new Adapter() });
 
@@ -13,7 +13,7 @@ it("render default", () => {
       <Map center={[47.445745, 40.272891666666666]} zoom={10}>
         <LeafletReactTrackPlayer
           track={demo}
-          optionMultyIdxFn={function(p) {
+          optionMultyIdxFn={function (p) {
             return p.status;
           }}
           optionsMulty={[

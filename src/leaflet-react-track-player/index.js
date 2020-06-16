@@ -15,7 +15,7 @@ const paramsForMultiPolyline = props => {
     multiOptions: {
       optionIdxFn: props.optionMultyIdxFn
         ? props.optionMultyIdxFn
-        : function() {},
+        : function () {},
       options: props.optionsMulty ? props.optionsMulty : []
     }
   };
@@ -88,7 +88,7 @@ class LeafletReactTrackPlayer extends MapLayer {
       timeFormat: this.props.timeFormat,
       progressFormat: this.props.progressFormat,
       startPosition: this.props.startPosition,
-      defaultSpeed: this.props.defaultSpeed,
+      defaultSpeed: this.props.defaultSpeed
     });
     this.props.leaflet.map.addLayer(snakePolyline);
     return {
@@ -419,7 +419,7 @@ class LeafletReactTrackPlayer extends MapLayer {
 
   componentWillUnmount() {
     for (let key in this.leafletElement) {
-      this.props.leaflet.map.removeLayer(this.leafletElement[key])
+      this.props.leaflet.map.removeLayer(this.leafletElement[key]);
     }
   }
 
@@ -530,7 +530,7 @@ class LeafletReactTrackPlayer extends MapLayer {
 LeafletReactTrackPlayer.defaultProps = {
   useControl: true,
   useInformationPanel: false,
-  optionMultyIdxFn: function() {},
+  optionMultyIdxFn: function () {},
   optionsMulty: [],
   customMarker: false,
   iconCustomMarker: "",
@@ -542,13 +542,13 @@ LeafletReactTrackPlayer.defaultProps = {
   startPosition: 0,
   streamData: false,
   showDots: false,
-  callbackFinish: function() {},
-  callbackPrev: function() {},
-  callbackNext: function() {},
-  callbackSpeed: function() {},
-  callbackFly: function() {},
-  callbackCourse: function() {},
-  callbackStream: function() {}
+  callbackFinish: function () {},
+  callbackPrev: function () {},
+  callbackNext: function () {},
+  callbackSpeed: function () {},
+  callbackFly: function () {},
+  callbackCourse: function () {},
+  callbackStream: function () {}
 };
 
 LeafletReactTrackPlayer.propTypes = {

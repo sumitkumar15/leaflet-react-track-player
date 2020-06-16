@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import LeafletReactTrackPlayer from "./laeflet-react-track-player";
+import LeafletReactTrackPlayer from "./leaflet-react-track-player";
 import demo from "./demo";
 import { Map, TileLayer } from "react-leaflet";
 
@@ -18,12 +18,14 @@ class App extends Component {
     const position = [demo[demo.length - 1].lat, demo[demo.length - 1].lng];
     return (
       <div className="App">
-        <button onClick={() => this.setState({show: !this.state.show})}>ss</button>
+        <button onClick={() => this.setState({ show: !this.state.show })}>
+          ss
+        </button>
         <Map center={position} zoom={this.state.zoom}>
           {this.state.show ? (
             <LeafletReactTrackPlayer
               track={this.state.demo}
-              optionMultyIdxFn={function(p) {
+              optionMultyIdxFn={function (p) {
                 return p.status;
               }}
               optionsMulty={[
@@ -43,7 +45,7 @@ class App extends Component {
             />
           ) : null}
           <TileLayer
-            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
         </Map>

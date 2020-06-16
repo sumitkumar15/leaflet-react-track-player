@@ -1,6 +1,6 @@
 import L from "leaflet";
 import moment from "moment";
-import {getDistance} from "./index";
+import { getDistance } from "./index";
 
 L.Polyline.include({
   _snakingTimestamp: 0,
@@ -14,7 +14,7 @@ L.Polyline.include({
   _latLngAnimation: null,
 
   // It initialization polyline with animation
-  snakePlayer: function(e) {
+  snakePlayer: function (e) {
     if (e && !this._latLngAnimation) this._latLngAnimation = e;
     for (let i in this._eventParents) {
       if (this._eventParents[i]._options.defaultSpeed) {
@@ -38,7 +38,7 @@ L.Polyline.include({
   },
 
   // It initialization polyline with set LatLng and without animation
-  initDefaultPosition: function(params) {
+  initDefaultPosition: function (params) {
     this._latLngAnimation = params.animate;
     this._snaking = params.last;
     this._play = false;
@@ -89,7 +89,7 @@ L.Polyline.include({
   },
 
   // delete LatLngs, but not remove polyline.
-  removePosition: function() {
+  removePosition: function () {
     this._play = false;
     this._now = 0;
     this._forward = 0;
@@ -102,13 +102,13 @@ L.Polyline.include({
   },
 
   // stopping animation
-  snakeStop: function() {
+  snakeStop: function () {
     this._play = false;
     this._stopTime = this._now;
   },
 
   // starting animation
-  snakePlay: function() {
+  snakePlay: function () {
     this._snaking = true;
     this._path.style.display = "block";
     this._play = true;
@@ -117,15 +117,15 @@ L.Polyline.include({
     this._snakeRun();
   },
 
-  changeSpeed: function(xSpeed) {
+  changeSpeed: function (xSpeed) {
     this._xSpeed = xSpeed;
   },
 
   // counter of time for calculation process animation
-  startTime: function() {
+  startTime: function () {
     let startTime = Date.now();
     let self = this;
-    const flyTime = function() {
+    const flyTime = function () {
       self._now = Date.now() - startTime + self._stopTime;
       if (self._play) setTimeout(flyTime, 10);
     };
@@ -133,7 +133,7 @@ L.Polyline.include({
   },
 
   // new iteration of animation
-  _snakeRun: function() {
+  _snakeRun: function () {
     if (!this.maxDistance) {
       this.maxDistance = this._snakeLatLngs[0].distanceTo(
         this._snakeLatLngs[1]
@@ -147,9 +147,9 @@ L.Polyline.include({
       let forward = this.maxDistance
         ? (diff * (this.maxDistance / time)) / 1000
         : (diff * (1 / time)) / 1000;
-        if (this._defaultSpeed) {
-          forward = diff * (this._defaultSpeed * this._xSpeed) / 1000
-        }
+      if (this._defaultSpeed) {
+        forward = (diff * (this._defaultSpeed * this._xSpeed)) / 1000;
+      }
       this._snakingTime = this._now;
       this._latlngs.pop();
       this._forward = forward;
@@ -157,7 +157,7 @@ L.Polyline.include({
     }
   },
 
-  _snakeForwardRun: function(forward) {
+  _snakeForwardRun: function (forward) {
     if (!this._now) this.startTime();
     if (this._play && this._map) {
       let currPoint = this._map.latLngToContainerPoint(
@@ -210,7 +210,7 @@ L.Polyline.include({
     }
   },
 
-  _nextPoint: function() {
+  _nextPoint: function () {
     var i = Object.keys(this._eventParents);
     let countLayer = this._eventParents[i[0]]._snakingLayersDone - 1;
     let point = this._eventParents[i[0]]._detailData[countLayer][
@@ -249,7 +249,7 @@ L.Polyline.include({
     }
   },
 
-  _snakeEnd: function() {
+  _snakeEnd: function () {
     this._play = false;
     this._snaking = false;
     this.setLatLngs(this._snakeLatLngs);
@@ -268,24 +268,24 @@ L.LayerGroup.include({
   _end: null,
   _callbackChangePosition: null,
 
-  snakeStop: function() {
+  snakeStop: function () {
     this._snakingLayers.map(item => {
       if (item._map) item.snakeStop();
     });
   },
 
-  snakePlay: function() {
-    const findLast = this._snakingLayers.some((itm) => itm._snaking);
+  snakePlay: function () {
+    const findLast = this._snakingLayers.some(itm => itm._snaking);
     var goPlay = null;
     this._snakingLayers.map(function (item) {
       if (item._map && item._snaking) item.snakePlay();
     });
     if (findLast) {
-      if(goPlay) goPlay.snakePlay(); 
+      if (goPlay) goPlay.snakePlay();
     } else this._snakeNextPolyline();
   },
   // change position. This function stopping work of animation and initiate polylines with default state. Need timestamp
-  changePosition: function(value) {
+  changePosition: function (value) {
     var filterData = {};
     if (this._options.progressFormat === "default") {
       filterData = this._changePositionByDefault(value);
@@ -314,7 +314,7 @@ L.LayerGroup.include({
     this._end(false);
   },
 
-  _changePositionByDefault: function(value) {
+  _changePositionByDefault: function (value) {
     return this._detailData.reduce(
       (result, item, index) => {
         if (result.count > item.length) {
@@ -336,7 +336,7 @@ L.LayerGroup.include({
     );
   },
 
-  _changePositionByTime: function(value) {
+  _changePositionByTime: function (value) {
     return this._detailData.reduce(
       (result, item, index) => {
         let filterData = item.filter(itm => Number(itm.t) <= Number(value));
@@ -350,7 +350,7 @@ L.LayerGroup.include({
     );
   },
 
-  _changePositionByDistance: function(value) {
+  _changePositionByDistance: function (value) {
     return this._detailDistance.reduce(
       (result, item, index) => {
         if (result.count > item) {
@@ -384,7 +384,7 @@ L.LayerGroup.include({
   },
 
   // Is is progress for mode progressFormat === "distance"
-  _procentProgress: function(e, point, progress) {
+  _procentProgress: function (e, point, progress) {
     if (progress) {
       var prevRangeColors = 0;
       var activePolylineRange = 0;
@@ -414,18 +414,18 @@ L.LayerGroup.include({
     }
   },
 
-  changeSpeed: function(xSpeed) {
+  changeSpeed: function (xSpeed) {
     this._snakingLayers.map(item => {
       item.changeSpeed(xSpeed);
     });
   },
 
-  snakePlayer: function(events) {
+  snakePlayer: function (events) {
     if (!this._callbackChangePosition && events.change)
       this._callbackChangePosition = events.change;
     if (!this._latLngAnimation && events.fly) {
       var self = this;
-      this._latLngAnimation = function(point, progress) {
+      this._latLngAnimation = function (point, progress) {
         if (self._options.progressFormat === "distance") {
           self._procentProgress(events.fly, point, progress);
         } else events.fly(point);
@@ -442,7 +442,9 @@ L.LayerGroup.include({
       this._snakingLayers.push(this._layers[keys[i]]);
     }
     this.clearLayers();
-    this._detailDistance = this._detailData.map(polyline => getDistance(polyline));
+    this._detailDistance = this._detailData.map(polyline =>
+      getDistance(polyline)
+    );
     if (this._options.startPosition) {
       this._initiateStartPosition();
     } else {
@@ -450,7 +452,7 @@ L.LayerGroup.include({
     }
   },
 
-  _initiateStartPosition: function() {
+  _initiateStartPosition: function () {
     if (this._options.startPosition === "full") {
       if (this._options.progressFormat === "default") {
         this.changePosition(this._originalLatlngs.length);
@@ -473,8 +475,11 @@ L.LayerGroup.include({
     }
   },
 
-  _snakeNextPolyline: function() {
-    if(!this._snaking && this._snakingLayersDone < this._snakingLayers.length) {
+  _snakeNextPolyline: function () {
+    if (
+      !this._snaking &&
+      this._snakingLayersDone < this._snakingLayers.length
+    ) {
       this._snaking = true;
     }
     if (this._snakingLayersDone >= this._snakingLayers.length) {
@@ -490,7 +495,7 @@ L.LayerGroup.include({
     } else currentLayer.snakePlay();
   },
 
-  addPolyline: function(layers, detail) {
+  addPolyline: function (layers, detail) {
     const prevRange = this._snakingLayers.length;
     layers.map((item, index) => {
       this.addLayer(item);

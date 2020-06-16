@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "leaflet-react-track-player",
+  "main": "./index.js"
+}
